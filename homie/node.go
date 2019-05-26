@@ -69,6 +69,7 @@ func (n *node) NewProperty(name string, propertyType string) Property {
 	return n.AddProperty(&property{
 		name:         name,
 		propertyType: propertyType,
+		retained: true,
 	})
 }
 
