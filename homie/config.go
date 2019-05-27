@@ -13,4 +13,5 @@ type Config struct {
 	Mqtt                MqttConfig
 	BaseTopic           string // must end with '/'
 	StatsReportInterval int // in seconds
+	DisplayName         string
 }

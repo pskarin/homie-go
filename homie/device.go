@@ -196,7 +196,7 @@ func (d *device) initDevice() {
 	}
 	d.SendMessage("$state", "init")
 	d.SendMessage("$homie", HomieSpecVersion)
-	d.SendMessage("$name", d.name)
+	d.SendMessage("$name", d.config.DisplayName)
 	d.SendMessage("$localip", outboundIP())
 	d.SendMessage("$implementation", "homie-go")
 	d.SendMessage("$stats/interval", fmt.Sprintf("%d", d.config.StatsReportInterval))
