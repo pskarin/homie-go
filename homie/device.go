@@ -187,17 +187,18 @@ func (d *device) SetDevicePublisher(publisher DevicePublisher) Device {
 func (d *device) PublishStats() {
 	diff := time.Since(d.Stats().StartupTime())
 	d.SendMessage("$stats/uptime", fmt.Sprintf("%d", uint64(diff.Seconds())))
+	d.SendMessage("$stats/interval", fmt.Sprintf("%d", d.config.StatsReportInterval))
 }
 
 func (d *device) initDevice() {
 	if !d.client.IsConnected() {
 		panic("not connected")
 	}
+	d.SendMessage("$state", "init")
 	d.SendMessage("$homie", HomieSpecVersion)
 	d.SendMessage("$name", d.name)
 	d.SendMessage("$localip", outboundIP())
 	d.SendMessage("$implementation", "homie-go")
-	d.SendMessage("$state", "ready")
 	d.SendMessage("$stats/interval", fmt.Sprintf("%d", d.config.StatsReportInterval))
 
 	var nodeNames []string
@@ -213,6 +214,7 @@ func (d *device) initDevice() {
 		d.publisher(d)
 	}
 	d.PublishStats()
+	d.SendMessage("$state", "ready")
 }
 
 func (d *device) initNodes() {
