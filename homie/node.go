@@ -70,6 +70,7 @@ func (n *node) NewProperty(name string, propertyType string) Property {
 		name:         name,
 		propertyType: propertyType,
 		retained: true,
+    friendlyName: name,
 	})
 }
 
