@@ -110,7 +110,7 @@ func TestPropertyHandler(t *testing.T) {
 	client := new(mqttAdapterMock)
 	client.On("IsConnected").Return(true).Once()
 	// TODO: verify individual Publish calls by fixing m.Called() in mocked Publish() method and setup correct expectations
-	client.On("Publish").Return(token).Times(10 + 3 + 6) // 10 device messages (1 publish stats) + 3 node messages + 6 property config
+	client.On("Publish").Return(token).Times(10 + 3 + 6 + 1) // 10 device messages (1 publish stats) + 3 node messages + 6 property config + 1 property value
 	client.On("Subscribe", "devices/device-1/n1/p1/set", uint8(1), mock.AnythingOfType("mqtt.MessageHandler")).
 		Return(token).
 		Once()
