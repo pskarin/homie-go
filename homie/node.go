@@ -115,7 +115,7 @@ func (n *node) Publish() Node {
 	}
 	n.Device().SendMessage(n.NodeTopic("$properties"), strings.Join(propNames, ","))
 	for _, p := range n.properties {
-		p.Publish()
+		p.PublishConfiguration()
 	}
 	return n
 }

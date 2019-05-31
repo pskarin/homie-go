@@ -20,6 +20,8 @@ type Property interface {
 	SetNode(n Node) Property
 	// Publish send current value as MQTT payload, topic will be Node().Topic(Name())
 	Publish() Property
+	// Publish the property's homie configuration
+	PublishConfiguration() Property
 
 	// Subscribe called during initialisation, subscribe to MQTT topic: device/node/prop/set if property Handler is set
 	Subscribe() Property
@@ -90,7 +92,8 @@ func (p *property) SetHandler(h PropertyHandler) Property {
 	return p
 }
 
-func (p *property) Publish() Property {
+
+func (p *property) PublishConfiguration() Property {
   topic := p.Node().NodeTopic(p.name)
   p.node.Device().SendMessage(fmt.Sprintf("%s/$name", topic), p.friendlyName)
 	p.node.Device().SendMessage(fmt.Sprintf("%s/$datatype", topic), p.propertyType)
@@ -98,6 +101,11 @@ func (p *property) Publish() Property {
 	p.node.Device().SendMessage(fmt.Sprintf("%s/$settable", topic), fmt.Sprint(p.settable))
 	p.node.Device().SendMessage(fmt.Sprintf("%s/$retained", topic), fmt.Sprint(p.retained))
 	p.node.Device().SendMessage(fmt.Sprintf("%s/$format", topic), p.format)
+	return p
+}
+
+func (p *property) Publish() Property {
+	topic := p.Node().NodeTopic(p.name)
 	p.node.Device().SendMessage(topic, p.value)
 	return p
 }
